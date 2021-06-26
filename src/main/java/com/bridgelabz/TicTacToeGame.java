@@ -6,7 +6,7 @@ public class TicTacToeGame {
     private static final int COMPUTER=2;
     private static final int EMPTY=0;
 
-    // creating a method to print
+    //  method to print the board by creating multi dimentional 2D array
     public static void print_board(int[][] board){
         System.out.println(printChar(board[0][0]));
         System.out.println("|");
