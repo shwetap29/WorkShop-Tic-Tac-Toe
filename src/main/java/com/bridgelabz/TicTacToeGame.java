@@ -44,7 +44,7 @@ public class TicTacToeGame {
     public static String moveChoice() {
         String computerChoice;
         String userChoice;
-        System.out.println("Choose 1. for X and 2. for O");
+        System.out.println("Choose 1.for X and 2.for O");
         Scanner sc = new Scanner(System.in);
         int userChoiceNumber = sc.nextInt();
         if (userChoiceNumber == 1) {
@@ -56,9 +56,23 @@ public class TicTacToeGame {
         return userChoice;
     }
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to TicTacToe Game");
+    //method for creating a random  move value for computer using random
+    public static int computerMove() {
+        int move = (int) (Math.random() * 9);
+        return move;
+    }
+        //method for taking user input for player move
+        public static int userMove() {
+            Scanner ac = new Scanner(System.in);
+            int move = ac.nextInt();
+            return move;
+        }
+
+        public static void main(String[] args) {
+
+         System.out.println("Welcome to TicTacToe Game");
         int turn;
+        int move;
         String computerChoice;
         //creating multidimentional array
         int[][] board = new int[3][3];
@@ -76,7 +90,16 @@ public class TicTacToeGame {
         				turn = USER;
         		}
         		 System.out.println("You have chosen: " + userChoice + " so computer gets: " + computerChoice);
-    }
+            //using if else and calling move methods check for available cells
+            	 if (turn == USER) {
+            			 move = userMove();
+            			print_board(board);
+            		 }
+            		 else
+            		     move =computerMove();
+                            print_board(board);
+
+        }
 
     }
 
