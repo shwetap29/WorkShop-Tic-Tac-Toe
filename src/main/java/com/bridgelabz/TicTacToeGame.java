@@ -9,7 +9,7 @@ public class TicTacToeGame {
     private static final int EMPTY=0;
 
     //  method to print board and passing parameters for player and computer moves
-    public static void print_board(int[][] board, String userChoice, String computerChoice){
+    public static void print_board(int[][] board, String userChoice, String computerChoice) {
         System.out.print(printChar(board[0][0], userChoice, computerChoice));
         System.out.print("|");
         System.out.print(printChar(board[0][1], userChoice, computerChoice));
@@ -29,8 +29,10 @@ public class TicTacToeGame {
         System.out.println(printChar(board[2][2], userChoice, computerChoice));
     }
 
-    public static String printChar(int b,String charChoice, String computerChoice) {
-        switch (b){
+
+    public static String printChar(int b, String charChoice, String computerChoice) {
+
+        switch(b) {
             case EMPTY:
                 return " ";
             case USER:
@@ -41,27 +43,30 @@ public class TicTacToeGame {
         return  " ";
     }
 
-//player to select X OR O
+    //method for player to select X or O
     public static String moveChoice() {
         String computerChoice;
         String userChoice;
-        System.out.println("Choose 1.for X and 2.for O");
+        System.out.println("Choose 1. for X and 2. for O");
         Scanner sc = new Scanner(System.in);
         int userChoiceNumber = sc.nextInt();
         if (userChoiceNumber == 1) {
             userChoice = "X";
-        } else
+        }
+        else
             userChoice = "O";
-        System.out.println("You have choosen: " + userChoice);
+
+        System.out.println("You have chose: " + userChoice);
 
         return userChoice;
     }
 
     //method to get computers move by random
     public static int computerMove(int[][] board) {
-        int move = (int) (Math.random() * 9);
+        int move = (int)(Math.random()*9);
 
         //using while loop  to insure its index free
+
         while(board[move/3][move%3] != EMPTY) {
             move = (int)(Math.random()*9);
         }
@@ -78,6 +83,7 @@ public class TicTacToeGame {
         int move = ac.nextInt();
         return move;
     }
+
 
     public static void main(String[] args) {
 
@@ -120,7 +126,7 @@ public class TicTacToeGame {
             }
             board[(int)(move/3)][move%3] = turn;
 
-            //printing board after move
+            //printing board after move and shows the free spaces
             print_board(board, userChoice, computerChoice);
 
             if (turn == USER) {
