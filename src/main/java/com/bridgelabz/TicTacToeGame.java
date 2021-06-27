@@ -7,8 +7,10 @@ public class TicTacToeGame {
     private static final int USER=1;
     private static final int COMPUTER=2;
     private static final int EMPTY=0;
+    private static int stalemate=0;
+    //private static int none = 0;
 
-    //  method to print board and passing parameters for player and computer moves
+    //method to create board
     public static void print_board(int[][] board, String userChoice, String computerChoice) {
         System.out.print(printChar(board[0][0], userChoice, computerChoice));
         System.out.print("|");
@@ -29,25 +31,25 @@ public class TicTacToeGame {
         System.out.println(printChar(board[2][2], userChoice, computerChoice));
     }
 
-
-    public static String printChar(int b, String charChoice, String computerChoice) {
+    //method for printing user choice or cumputer choice on board
+    public static String printChar(int b, String userChoice, String computerChoice) {
 
         switch(b) {
             case EMPTY:
                 return " ";
             case USER:
-                return charChoice;
+                return userChoice;
             case COMPUTER:
                 return computerChoice;
         }
         return  " ";
     }
 
-    //method for player to select X or O
+    //method tp decide move choice that is who gets X and who gets O
     public static String moveChoice() {
         String computerChoice;
         String userChoice;
-        System.out.println("Choose 1. for X and 2. for O");
+        System.out.println("Choose 1 for X and 2 for O");
         Scanner sc = new Scanner(System.in);
         int userChoiceNumber = sc.nextInt();
         if (userChoiceNumber == 1) {
@@ -56,17 +58,16 @@ public class TicTacToeGame {
         else
             userChoice = "O";
 
-        System.out.println("You have chose: " + userChoice);
+        System.out.println("You Have choose: " + userChoice);
 
         return userChoice;
     }
 
-    //method to get computers move by random
+    //methode to decide computer move using random
     public static int computerMove(int[][] board) {
         int move = (int)(Math.random()*9);
 
-        //using while loop  to insure its index free
-
+        //using while loop and condition to get position on board of multidimentional array
         while(board[move/3][move%3] != EMPTY) {
             move = (int)(Math.random()*9);
         }
@@ -75,40 +76,82 @@ public class TicTacToeGame {
         return move;
     }
 
-    //method to get user move
+    //method  for user to select its move
     public static int userMove() {
-        System.out.println("Please enter your move between 1 to 9");
-        //taking user input for user move
+        System.out.println("Please Enter Your Move Between 1 To 9");
         Scanner ac = new Scanner(System.in);
         int move = ac.nextInt();
         return move;
     }
 
+    //method to check winning combinations
+    public static int checkWinner(int[][] board) {
+
+
+        if((board[0][0] == board[0][1]) && (board[0][1] == board[0][2]))
+            return board[0][0];
+
+        if((board[1][0] == board[1][1]) && (board[1][1] == board[1][2]))
+            return board[1][0];
+
+        if((board[2][0] == board[2][1]) && (board[2][1] == board[2][2]))
+            return board[2][0];
+
+
+        if((board[0][0] == board[1][0]) && (board[1][0] == board[2][0]))
+            return board[0][0];
+
+        if((board[0][1] == board[1][1]) && (board[1][1] == board[2][1]))
+            return board[0][1];
+
+        if((board[0][2] == board[1][2]) && (board[1][2] == board[2][2]))
+            return board[0][2];
+
+
+        if((board[0][0] == board[1][1]) && (board[1][1] == board[2][2]))
+            return board[0][0];
+
+        if((board[0][2] == board[1][1]) && (board[1][1] == board[2][0]))
+            return board[0][2];
+
+
+
+        return stalemate;
+    }
 
     public static void main(String[] args) {
 
-        //declaring constants
+        //initializing variables
         int turn;
-        int move;
+        int move, win;
+        int counter = 0;
         String choice = " ";
         String computerChoice;
-
-        //creating multidimentional aray
         int[][] board = new int[3][3];
         String empty = " ";
         String emptyUser = " ";
         print_board(board, empty, emptyUser);
         String userChoice = moveChoice();
+
+        //toss to determine who plays first
+        int toss = (int)(Math.random()*2);
+        if (toss==0) {
+            turn = USER;
+            System.out.println("You Have Won The Toss !!");
+
+        }
+        else {
+            turn = COMPUTER;
+            System.out.println("Computer Has Won The Toss !!");
+
+        }
         if (userChoice == "X") {
             computerChoice = "O";
-            turn = COMPUTER;
         }
         else {
             computerChoice = "X";
-            turn = USER;
         }
         System.out.println("You have chose: " + userChoice + " so computer gets: " + computerChoice);
-        System.out.println(USER+" "+ COMPUTER);
         while(true) {
             if (turn == USER) {
                 move = -1;
@@ -125,16 +168,35 @@ public class TicTacToeGame {
 
             }
             board[(int)(move/3)][move%3] = turn;
-
-            //printing board after move and shows the free spaces
             print_board(board, userChoice, computerChoice);
+            win = checkWinner(board);
+            counter = counter + 1;
 
+            if ( win != stalemate ) {
+                break;
+            }
+
+            if (counter == 9) {
+                System.out.println("It's a Tie!!!");
+                break;
+            }
             if (turn == USER) {
                 turn = COMPUTER;
             }
             else {
                 turn = USER;
             }
+
+        }
+        switch(win) {
+            case USER:
+                System.out.println("You Have Won");
+                break;
+            case COMPUTER:
+                System.out.println("Computer Won");
+                break;
+            default:
+                break;
         }
     }
     }
